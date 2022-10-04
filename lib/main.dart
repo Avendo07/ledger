@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
+import 'package:ledger/services/excel_service/excel_service.dart';
 import 'package:ledger/services/message_service/service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -45,12 +46,15 @@ class _HomePageState extends State<HomePage> {
           title: Text(widget.title),
         ),
         body: !buttonPressed
-            ? Center(
-                child: ElevatedButton(
-                    onPressed: () async {
-                      syncMessages();
-                    },
-                    child: Text("Sync")),
+            ? Column(
+                children: [
+                  ElevatedButton(
+                      onPressed: () async => syncMessages(),
+                      child: Text("Sync")),
+                  ElevatedButton(
+                      onPressed: () => ExcelService.saveToExcel(),
+                      child: Text("Save File"))
+                ],
               )
             : !synced
                 ? CircularProgressIndicator()
@@ -59,8 +63,10 @@ class _HomePageState extends State<HomePage> {
                         .map((message) => ListTile(
                               leading: Text(message.id.toString()),
                               title: Text(message.sender ?? ""),
-                              trailing: Text(message.date.toString(),),
-                              subtitle: Text(message.body??""),
+                              trailing: Text(
+                                message.date.toString(),
+                              ),
+                              subtitle: Text(message.body ?? ""),
                             ))
                         .toList(),
                   ));
