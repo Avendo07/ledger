@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ledger/services/excel_service/excel_service.dart';
 import 'package:ledger/services/message_service/service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() {
+  Hive.initFlutter();
   runApp(const MyApp());
 }
 
@@ -39,8 +41,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List list = ["Hello", "How are you"];
-    MessageService service = MessageService();
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -53,7 +53,10 @@ class _HomePageState extends State<HomePage> {
                       child: Text("Sync")),
                   ElevatedButton(
                       onPressed: () => ExcelService.saveToExcel(),
-                      child: Text("Save File"))
+                      child: Text("Save File")),
+                  ElevatedButton(
+                      onPressed: () => ExcelService.chooseExcelLocation(),
+                      child: Text("Choose Excel Location"))
                 ],
               )
             : !synced
