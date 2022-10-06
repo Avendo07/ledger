@@ -1,3 +1,4 @@
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -52,11 +53,36 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () async => syncMessages(),
                       child: Text("Sync")),
                   ElevatedButton(
-                      onPressed: () => ExcelService.saveToExcel(),
+                      onPressed: () => ExcelService.newExcel(),
                       child: Text("Save File")),
                   ElevatedButton(
                       onPressed: () => ExcelService.chooseExcelLocation(),
-                      child: Text("Choose Excel Location"))
+                      child: Text("Choose Excel Location")),
+                  ElevatedButton(
+                      onPressed: () async {
+                        Excel? x = await ExcelService.readExcelSheet();
+                        if (x != null) {
+                          Sheet? sheet =
+                              x.sheets[x.getDefaultSheet() ?? "Sheet1"];
+                          if (sheet != null) {
+                            ExcelService.addRow(
+                                ["Hello", "How", "are", "You"], sheet);
+                            ExcelService.saveToExcel(x);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Updated the sheet")));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Could not open the sheet")));
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Could not open the excel")));
+                        }
+                      },
+                      child: Text("Add Data"))
                 ],
               )
             : !synced
