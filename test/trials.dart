@@ -114,6 +114,12 @@ void main() {
       return outputMap;*/
     }
 
+    RegExp generateRegex(String template) {
+      RegExp reg = RegExp(r'\/\@.\w+\b');
+      String newString = template.replaceAll(reg, "./*");
+      return RegExp(newString);
+    }
+
       test("diff_match_patch 1 ", () {
         String mainString = "Hello Naman spent Rs 100 on 21 August here";
         String template = "Hello /@name spent Rs /@amount on /@date here";
@@ -183,6 +189,15 @@ void main() {
         // regExp.stringMatch(input)
         print(match);
       });
+
+      test("Convert template to regex", (){
+        String template = "Hello /@name earned /@amount on Monday";
+        RegExp regex = generateRegex(template);
+        RegExp expextedRegex = RegExp(r'Hello ./* earned ./* on Monday');
+        print(regex.pattern);
+      });
     }
   );
 }
+
+
