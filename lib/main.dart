@@ -42,63 +42,76 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: !buttonPressed
-            ? Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: () async => syncMessages(),
-                      child: Text("Sync")),
-                  ElevatedButton(
-                      onPressed: () => ExcelService.newExcel(),
-                      child: Text("Save File")),
-                  ElevatedButton(
-                      onPressed: () => ExcelService.chooseExcelLocation(),
-                      child: Text("Choose Excel Location")),
-                  ElevatedButton(
-                      onPressed: () async {
-                        Excel? x = await ExcelService.readExcelSheet();
-                        if (x != null) {
-                          Sheet? sheet =
-                              x.sheets[x.getDefaultSheet() ?? "Sheet1"];
-                          if (sheet != null) {
-                            ExcelService.addRow(
-                                ["Hello", "How", "are", "You"], sheet);
-                            ExcelService.saveToExcel(x);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Updated the sheet")));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Could not open the sheet")));
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Could not open the excel")));
-                        }
-                      },
-                      child: Text("Add Data"))
-                ],
+    return SafeArea(
+      child: Scaffold(
+          /*appBar: AppBar(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            title: Text(widget.title),
+          ),*/
+          body: ListView.builder(
+            itemBuilder: (buildContext, index){
+
+            },
+            itemCount: ,
+          )/*!buttonPressed
+              ? Center(
+                child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () async => syncMessages(),
+                          child: Text("Sync")),
+                      ElevatedButton(
+                          onPressed: () => ExcelService.newExcel(),
+                          child: Text("Save File")),
+                      ElevatedButton(
+                          onPressed: () => ExcelService.chooseExcelLocation(),
+                          child: Text("Choose Excel Location")),
+                      ElevatedButton(
+                          onPressed: () async {
+                            Excel? x = await ExcelService.readExcelSheet();
+                            if (x != null) {
+                              Sheet? sheet =
+                                  x.sheets[x.getDefaultSheet() ?? "Sheet1"];
+                              if (sheet != null) {
+                                ExcelService.addRow(
+                                    ["Hello", "How", "are", "You"], sheet);
+                                ExcelService.saveToExcel(x);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Updated the sheet")));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Could not open the sheet")));
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text("Could not open the excel")));
+                            }
+                          },
+                          child: Text("Add Data"))
+                    ],
+                  ),
               )
-            : !synced
-                ? CircularProgressIndicator()
-                : ListView(
-                    children: messages
-                        .map((message) => ListTile(
-                              leading: Text(message.id.toString()),
-                              title: Text(message.sender ?? ""),
-                              trailing: Text(
-                                message.date.toString(),
-                              ),
-                              subtitle: Text(message.body ?? ""),
-                            ))
-                        .toList(),
-                  ));
+              : !synced
+                  ? CircularProgressIndicator()
+                  : ListView(
+                      children: messages
+                          .map((message) => ListTile(
+                                leading: Text(message.id.toString()),
+                                title: Text(message.sender ?? ""),
+                                trailing: Text(
+                                  message.date.toString(),
+                                ),
+                                subtitle: Text(message.body ?? ""),
+                              ))
+                          .toList(),
+                    )*/),
+    );
   }
 
   void syncMessages() async {
