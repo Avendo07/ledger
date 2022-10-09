@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group("trials", ()
-  {
+  group("trials", () {
     test("Date Time", () {
       DateTime time = DateTime.now();
       print(time.toString());
@@ -87,20 +86,22 @@ void main() {
       return extractedData;
     }
 
+    RegExp generateRegex(String template) {
+      RegExp reg = RegExp(r'\/\@.\w+\b');
+      String newString = template.replaceAll(reg, ".*");
+      return RegExp(newString);
+    }
+
     Map<String, String> templateMatcher(String string) {
       String template1 = "Hello /@name spent Rs /@amount on /@date at /@time";
-      RegExp regex1 = RegExp(
-          r'Hello ./* spent Rs ./* on ./* at ./*'); //Figure a way out to generate it from the string itself
       String template2 = "Hello /@name works /@time hours";
-      RegExp regExp2 = RegExp(r'Hello ./* works ./* hours');
       List<String> templates = [template1, template2];
       Map<String, String> outputMap = {};
-      if (regex1.hasMatch(string)) {
-        print("match1");
-        return matcher(template1, string);
-      } else if (regExp2.hasMatch(string)) {
-        print("match2");
-        return matcher(template2, string);
+      for (var template in templates) {
+        RegExp reg = generateRegex(template);
+        if (reg.hasMatch(string)) {
+          return matcher(template, string);
+        }
       }
       return outputMap;
 
@@ -114,90 +115,81 @@ void main() {
       return outputMap;*/
     }
 
-    RegExp generateRegex(String template) {
-      RegExp reg = RegExp(r'\/\@.\w+\b');
-      String newString = template.replaceAll(reg, "./*");
-      return RegExp(newString);
-    }
+    test("diff_match_patch 1 ", () {
+      String mainString = "Hello Naman spent Rs 100 on 21 August here";
+      String template = "Hello /@name spent Rs /@amount on /@date here";
+      Map<String, String> differences = matcher(template, mainString);
+      //List<Diff> differences = diff(template, mainString);
+      print(differences);
+    });
 
-      test("diff_match_patch 1 ", () {
-        String mainString = "Hello Naman spent Rs 100 on 21 August here";
-        String template = "Hello /@name spent Rs /@amount on /@date here";
-        Map<String, String> differences = matcher(template, mainString);
-        //List<Diff> differences = diff(template, mainString);
-        print(differences);
-      });
-
-      test("diff_match_patch 2", () {
-        String mainString = "Hello Naman spent Rs 100 on 21 August at 10 AM";
-        String template = "Hello /@name spent Rs /@amount on /@date at /@time";
-        Map<String, String> differences = templateMatcher(mainString);
-        //List<Diff> differences = diff(template, mainString);
-        print(differences);
-      });
-
-      test("diff_match_patch 3", () {
-        String mainString =
-            "Hello Naman spent Rs 100 on 21 August at 10 AM time in Delhi place";
-        String template =
-            "Hello /@name spent Rs /@amount on /@date at /@time time in /@place place";
-        Map<String, String> differences = matcher(template, mainString);
-        //List<Diff> differences = diff(template, mainString);
-        print(differences);
-      });
-
-      test("diff_match_patch 4", () {
-        String mainString = "Hello Naman spent Rs 100 on 21 August at 10 AM tim";
-        String template =
-            "Hello /@name spent Rs /@amount on /@date at /@time tim";
-        Map<String, String> differences = matcher(template, mainString);
-        //List<Diff> differences = diff(template, mainString);
-        print(differences);
-      });
-
-      test("diff_match_pathch 5", () {
-        String mainString = "Hello Naman 100 on 21 August at 10 AM tim";
-        String template = "Hello /@name /@amount on /@date at /@time tim";
-        Map<String, String> differences = matcher(template, mainString);
-        //List<Diff> differences = diff(template, mainString);
-        print(differences);
-      });
-
-      test("diff_match_pathch 6", () {
-        String mainString = "Hello Naman 100 on 21 at August at 10 AM tim";
-        String template = "Hello /@name /@amount on /@date at /@time at tim";
-        Map<String, String> differences = matcher(template, mainString);
-        //List<Diff> differences = diff(template, mainString);
-        print(differences);
-      });
-
-    test("diff_match_pathch 7", () {
-      String mainString = "Hello Naman 100 work 19 hours";
+    test("diff_match_patch 2", () {
+      String mainString = "Hello Naman spent Rs 100 on 21 August at 10 AM";
+      String template = "Hello /@name spent Rs /@amount on /@date at /@time";
       Map<String, String> differences = templateMatcher(mainString);
       //List<Diff> differences = diff(template, mainString);
       print(differences);
     });
 
-      test("reg ex", () {
-        // RegExp reg = RegExp(r'Hello * how are you');
-        // print(reg.hasMatch('Hello naman how are you'));
-        // print(reg);
+    test("diff_match_patch 3", () {
+      String mainString =
+          "Hello Naman spent Rs 100 on 21 August at 10 AM time in Delhi place";
+      String template =
+          "Hello /@name spent Rs /@amount on /@date at /@time time in /@place place";
+      Map<String, String> differences = matcher(template, mainString);
+      //List<Diff> differences = diff(template, mainString);
+      print(differences);
+    });
 
-        var string = 'Humming is a bird';
-        var regExp = RegExp(r'Humming .* bird');
-        var match = regExp.hasMatch(string);
-        // regExp.stringMatch(input)
-        print(match);
-      });
+    test("diff_match_patch 4", () {
+      String mainString = "Hello Naman spent Rs 100 on 21 August at 10 AM tim";
+      String template =
+          "Hello /@name spent Rs /@amount on /@date at /@time tim";
+      Map<String, String> differences = matcher(template, mainString);
+      //List<Diff> differences = diff(template, mainString);
+      print(differences);
+    });
 
-      test("Convert template to regex", (){
-        String template = "Hello /@name earned /@amount on Monday";
-        RegExp regex = generateRegex(template);
-        RegExp expextedRegex = RegExp(r'Hello ./* earned ./* on Monday');
-        print(regex.pattern);
-      });
-    }
-  );
+    test("diff_match_pathch 5", () {
+      String mainString = "Hello Naman 100 on 21 August at 10 AM tim";
+      String template = "Hello /@name /@amount on /@date at /@time tim";
+      Map<String, String> differences = matcher(template, mainString);
+      //List<Diff> differences = diff(template, mainString);
+      print(differences);
+    });
+
+    test("diff_match_pathch 6", () {
+      String mainString = "Hello Naman 100 on 21 at August at 10 AM tim";
+      String template = "Hello /@name /@amount on /@date at /@time at tim";
+      Map<String, String> differences = matcher(template, mainString);
+      //List<Diff> differences = diff(template, mainString);
+      print(differences);
+    });
+
+    test("diff_match_pathch 7", () {
+      String mainString = "Hello Naman works 19 hours";
+      Map<String, String> differences = templateMatcher(mainString);
+      //List<Diff> differences = diff(template, mainString);
+      print(differences);
+    });
+
+    test("reg ex", () {
+      // RegExp reg = RegExp(r'Hello * how are you');
+      // print(reg.hasMatch('Hello naman how are you'));
+      // print(reg);
+
+      var string = 'Humming is a bird';
+      var regExp = RegExp(r'Humming .* bird');
+      var match = regExp.hasMatch(string);
+      // regExp.stringMatch(input)
+      print(match);
+    });
+
+    test("Convert template to regex", () {
+      String template = "Hello /@name earned /@amount on Monday";
+      RegExp regex = generateRegex(template);
+      RegExp expextedRegex = RegExp(r'Hello ./* earned ./* on Monday');
+      print(regex.pattern);
+    });
+  });
 }
-
-
