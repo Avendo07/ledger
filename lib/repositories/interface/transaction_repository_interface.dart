@@ -1,13 +1,13 @@
 import 'package:ledger/model/transaction.dart';
 
 abstract class ITransactionRepository {
-  Future<List<Transaction>> getAll();
+  List<Transaction> getAll();
 
-  Future<Transaction?> getOne(int id);
+  Transaction? getOne(int id);
 
-  Future<void> insert(Transaction book);
+  void insert(Transaction transaction);
 
-  Future<void> update(Transaction book);
+  void update(Transaction transaction);
 
-  Future<void> delete(int id);
+  void delete(int id);
 }

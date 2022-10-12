@@ -12,24 +12,33 @@ class Transaction {
   Transaction(
       this.transactionId, this.transactionType, this.amount, this.timeStamp);
 
-  Transaction.fromMap(Map<String, dynamic> data)
+/*  Transaction.fromMap(Map<String, dynamic> data)
       : transactionId = data['transactionId'],
         transactionType = data['transactionType'],
         amount = data['amount'],
-        timeStamp = data['timeStamp'];
+        timeStamp = data['timeStamp'];*/
 
-  Transaction.fromList(List<dynamic> data):
-  transactionId = data[0],
-  transactionType = data[1] as TransactionType,
-  amount = data[2],
-  timeStamp = data[3];
+  Transaction.fromList(List<dynamic> data)
+      : transactionId = data[0],
+        transactionType =
+            parseTransactionTypeFromString(data[1]) ?? TransactionType.debit,
+        amount = data[2],
+        timeStamp = data[3];
 
-  Map<String, dynamic> toMap() {
+/*  Map<String, dynamic> toMap() {
     return {
       'transactionId': transactionId,
-      'transactionType': transactionType,
+      'transactionType': transactionType.name,
       'amount': amount,
       'timeStamp': timeStamp
     };
+  }*/
+
+  List<dynamic> toList() {
+    return [transactionId, transactionType.name, amount, timeStamp];
+  }
+
+  String toString() {
+    return ("ID: $transactionId, type: $transactionType, amount: $amount, time: $timeStamp");
   }
 }

@@ -26,9 +26,10 @@ class ExcelService {
     }
   }
 
-  static newExcel(){
+  static Excel newExcel(){
     Excel excel = Excel.createExcel();
-    saveToExcel(excel);
+    // saveToExcel(excel);
+    return excel;
   }
 
   static void chooseExcelLocation() async {

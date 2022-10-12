@@ -1,7 +1,12 @@
+import 'dart:core';
+
 enum TransactionType { credit, debit }
 
-extension ParseToString on TransactionType{
-  String toShortString() {
-    return toString().split('.').last;
+TransactionType? parseTransactionTypeFromString(String data) {
+  for (TransactionType type in TransactionType.values) {
+    if (type.name == data) {
+      return type;
+    }
   }
+  return null;
 }

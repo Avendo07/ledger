@@ -44,17 +44,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          /*appBar: AppBar(
+          appBar: AppBar(
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
             title: Text(widget.title),
-          ),*/
-          body: ListView.builder(
+          ),
+          /*body: ListView.builder(
             itemBuilder: (buildContext, index){
 
             },
             itemCount: ,
-          )/*!buttonPressed
+          )*/body: !buttonPressed
               ? Center(
                 child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                 subtitle: Text(message.body ?? ""),
                               ))
                           .toList(),
-                    )*/),
+                    )),
     );
   }
 

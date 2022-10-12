@@ -1,13 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ledger/constants/enum.dart';
 
 void main() {
-  group("trials", () {
-    test("Date Time", () {
-      DateTime time = DateTime.now();
-      print(time.toString());
-      print("String".startsWith("St"));
-    });
-
+  group("matcher", () {
     Map<String, String> matcher(String template, String data) {
       List<String> tempList = template.split("/@");
       List<String> dataList = data.split(" ");
@@ -87,7 +82,7 @@ void main() {
     }
 
     RegExp generateRegex(String template) {
-      RegExp reg = RegExp(r'\/\@.\w+\b');
+      RegExp reg = RegExp(r'/\@.\w+\b');
       String newString = template.replaceAll(reg, ".*");
       return RegExp(newString);
     }
@@ -190,6 +185,22 @@ void main() {
       RegExp regex = generateRegex(template);
       RegExp expextedRegex = RegExp(r'Hello ./* earned ./* on Monday');
       print(regex.pattern);
+    });
+  });
+
+  group("Random Tries", () {
+    test("Check", () {
+      print(TransactionType.credit.name);
+    });
+
+    test("Date Time", () {
+      DateTime time = DateTime.now();
+      print(time.toString());
+      print("String".startsWith("St"));
+    });
+
+    test("Transaction Type", () {
+      print(parseTransactionTypeFromString("credi")?.name);
     });
   });
 }

@@ -1,34 +1,38 @@
 import 'package:excel/excel.dart';
 import 'package:ledger/model/transaction.dart';
+import 'package:ledger/repositories/interface/transaction_repository_interface.dart';
 
-class TransactionRepository {
-   final Excel _excel;
+class TransactionRepository extends ITransactionRepository {
+  final Excel _excel;
+
   TransactionRepository(this._excel);
 
+  static const defaultSheetName = "Sheet1";
+
   @override
-  Future<List<Transaction>> getAll() async {
-    var items = await _excel.sheets[_excel.getDefaultSheet()]?.rows;
-    return items?.map((item) => Transaction.fromMap(item.ma)).toList()??[];
+  List<Transaction> getAll() {
+    var items = _excel.sheets[defaultSheetName]?.rows;
+    return items?.map((item) => Transaction.fromList(item)).toList() ?? [];
   }
 
   @override
-  Future<Transaction?> getOne(int id) async {
-    var item = await _db.findOne(id);
-    return item != null ? Transaction.fromMap(item) : null;
+  Transaction? getOne(int id) {
+    var item = _excel.sheets[defaultSheetName]?.row(id);
+    return item != null ? Transaction.fromList(item.map((Data? data) => data?.value).toList()) : null;
   }
 
   @override
-  Future<void> insert(Transaction transaction) async {
-    await _db.insert(transaction.toMap());
+  void insert(Transaction transaction) {
+    _excel.appendRow(defaultSheetName, transaction.toList());
   }
 
   @override
-  Future<void> update(Transaction transaction) async {
-    await _db.update(transaction.toMap());
+  void update(Transaction transaction) {
+
   }
 
   @override
-  Future<void> delete(int id) async {
-    await _db.remove(id);
+  void delete(int id) async {
+    _excel.removeRow(defaultSheetName, id);
   }
-}}
+}
