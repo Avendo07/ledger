@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:ledger/constants/enum.dart';
 
 class Transaction {
@@ -23,7 +24,7 @@ class Transaction {
         transactionType =
             parseTransactionTypeFromString(data[1]) ?? TransactionType.debit,
         amount = data[2],
-        timeStamp = data[3];
+        timeStamp = _timeStampFromString(data[3]);
 
 /*  Map<String, dynamic> toMap() {
     return {
@@ -35,10 +36,23 @@ class Transaction {
   }*/
 
   List<dynamic> toList() {
-    return [transactionId, transactionType.name, amount, timeStamp];
+    return [transactionId, transactionType.name, amount, _formatTimeStampString(timeStamp)];
   }
 
   String toString() {
     return ("ID: $transactionId, type: $transactionType, amount: $amount, time: $timeStamp");
   }
+
+  static String _formatTimeStampString(DateTime dateTime){
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd kk:mm:ss");
+    String timeStampString = dateFormat.format(dateTime);
+    return timeStampString;
+  }
+
+  static DateTime _timeStampFromString(String timeStampString){
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd kk:mm:ss");
+    DateTime formattedTimeStamp = dateFormat.parse(timeStampString);
+    return formattedTimeStamp;
+  }
+
 }

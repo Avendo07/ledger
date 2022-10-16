@@ -28,7 +28,7 @@ class ExcelService {
 
   static Excel newExcel(){
     Excel excel = Excel.createExcel();
-    // saveToExcel(excel);
+    saveToExcel(excel);
     return excel;
   }
 

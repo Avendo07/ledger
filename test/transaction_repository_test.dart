@@ -32,7 +32,7 @@ void main() {
       Excel excel = ExcelService.newExcel();
       TransactionRepository repository = TransactionRepository(excel);
       repository.insert(Transaction("1", TransactionType.debit, 123, DateTime.now()));
-      print(excel.sheets["Sheet1"]?.rows);
+      print(excel.sheets["October 2022"]?.rows);
     });
 
     test("Get one", (){
