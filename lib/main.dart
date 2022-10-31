@@ -6,6 +6,7 @@ import 'package:ledger/constants/enum.dart';
 import 'package:ledger/repositories/transaction_repository.dart';
 import 'package:ledger/services/excel_service/excel_service.dart';
 import 'package:ledger/services/message_service/service.dart';
+import 'package:ledger/ui/settings.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'model/transaction.dart';
@@ -22,18 +23,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      routes: {
+        "/home": (buildContext) => HomePage(),
+        "/settings": (buildContext) => Settings(),
+      },
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Ledger'),
+      home: HomePage(),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  final String title;
-
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -51,14 +54,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text(widget.title),
+        title: const Text('Ledger'),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).pushNamed("/settings"),
+            icon: const Icon(Icons.settings),
+          ),
+        ],
       ),
-      /*body: ListView.builder(
-            itemBuilder: (buildContext, index){
-
-            },
-            itemCount: ,
-          )*/
       body: !buttonPressed
           ? Center(
               child: Column(
@@ -67,13 +70,13 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   ElevatedButton(
                       onPressed: () async => syncMessages(),
-                      child: Text("Sync")),
+                      child: const Text("Sync")),
                   ElevatedButton(
                       onPressed: () => ExcelService.newExcel(),
-                      child: Text("Save File")),
+                      child: const Text("Save File")),
                   ElevatedButton(
                       onPressed: () => ExcelService.chooseExcelLocation(),
-                      child: Text("Choose Excel Location")),
+                      child: const Text("Choose Excel Location")),
                   ElevatedButton(
                       onPressed: () async {
                         Excel? x = await ExcelService.readExcelSheet();
@@ -98,12 +101,12 @@ class _HomePageState extends State<HomePage> {
                                   content: Text("Could not open the excel")));
                         }
                       },
-                      child: Text("Add Data"))
+                      child: const Text("Add Data"))
                 ],
               ),
             )
           : !synced
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : ListView(
                   children: messages
                       .map((message) => ListTile(
@@ -147,24 +150,29 @@ class _HomePageState extends State<HomePage> {
                   actions: [
                     ElevatedButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text("Cancel")),
+                        child: const Text("Cancel")),
                     ElevatedButton(
                       onPressed: () async {
                         print("$amount, $isCredit");
 
-                        Excel? _excel = await ExcelService.readExcelSheet();
+                        Excel? excel = await ExcelService.readExcelSheet();
                         TransactionRepository repo =
-                            TransactionRepository(_excel!);
+                            TransactionRepository(excel!);
                         repo.insert(Transaction(
-                            "1", isCredit?TransactionType.credit:TransactionType.debit, amount, DateTime.now()));
+                            "1",
+                            isCredit
+                                ? TransactionType.credit
+                                : TransactionType.debit,
+                            amount,
+                            DateTime.now()));
                       },
-                      child: Text("Submit"),
+                      child: const Text("Submit"),
                     ),
                   ],
                 ),
               );
             }),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     ));
   }
