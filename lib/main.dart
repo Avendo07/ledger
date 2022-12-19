@@ -218,10 +218,11 @@ class ExcelData extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return GetX<HomeController>(
       builder: (controller) => controller.loading.value
-          ? controller.errorMsg == null
-              ? CircularProgressIndicator()
-              : Text(controller.errorMsg!)
-          : Text(controller.excel.sheets["December 2022"]!.rows[0].first!.value),
+          ? SizedBox(height: 30, child: CircularProgressIndicator())
+          : controller.errorMsg != null
+              ? Text(controller.errorMsg!)
+              : Text(controller
+                  .excel.sheets["December 2022"]!.rows[0].last!.value),
     );
     // return controller.obx(
     //     (state) => Text(state.excel.sheets["Sheet1"]!.rows[0].first!.value),

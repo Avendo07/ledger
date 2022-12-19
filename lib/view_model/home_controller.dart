@@ -11,12 +11,17 @@ class HomeController extends GetxController with StateMixin{
     loading.toggle();
     await ExcelService.readExcelSheet().then((value) {
       loading.toggle();
-      excel = value!;
-      print("done");
-      print(value.sheets.length);
-      print("printed");
+      if(value!=null){
+        excel = value;
+        print("done");
+        print(value.sheets.length);
+        print("printed");
+      }else{
+        // throw Exception("Hello, excel is not available");
+        errorMsg = "Hello, excel is not available";
+      }
     }).onError((error, stackTrace){
-      print("Error " + error.toString());
+      print("Error $error");
       errorMsg = "Couldn't load excel";
     });
     print("Done");
