@@ -11,22 +11,23 @@ class ExcelService {
   static saveToExcel(Excel excel) async {
     PermissionStatus filePermission = await Permission.storage.status;
     Box preferencesBox = await Hive.openBox(HiveBoxStore.preferences);
-    String? selectedDirectory = await preferencesBox.get(HiveBoxStore.excelSaveDirectory);
-    if(filePermission == PermissionStatus.granted){
+    String? selectedDirectory =
+        await preferencesBox.get(HiveBoxStore.excelSaveDirectory);
+    if (filePermission == PermissionStatus.granted) {
       if (selectedDirectory != null) {
         List<int>? encodedData = excel.encode();
         File("$selectedDirectory/excel.xlsx")
           ..createSync(recursive: true)
-          ..writeAsBytesSync(encodedData??[]);
-      }else{
+          ..writeAsBytesSync(encodedData ?? []);
+      } else {
         print("Unable to save");
       }
-    }else{
+    } else {
       await Permission.storage.request();
     }
   }
 
-  static Excel newExcel(){
+  static Excel newExcel() {
     Excel excel = Excel.createExcel();
     saveToExcel(excel);
     return excel;
@@ -38,22 +39,23 @@ class ExcelService {
     preferencesBox.put(HiveBoxStore.excelSaveDirectory, selectedDirectory);
   }
 
-  static void addRow(List data, Sheet sheet){
+  static void addRow(List data, Sheet sheet) {
     sheet.appendRow(data);
   }
 
   static Future<Excel?> readExcelSheet() async {
     PermissionStatus filePermission = await Permission.storage.status;
-    if(filePermission == PermissionStatus.granted){
+    if (filePermission == PermissionStatus.granted) {
       Box preferencesBox = await Hive.openBox(HiveBoxStore.preferences);
-      String? selectedDirectory = await preferencesBox.get(HiveBoxStore.excelSaveDirectory);
+      String? selectedDirectory =
+          await preferencesBox.get(HiveBoxStore.excelSaveDirectory);
       if (selectedDirectory != null) {
         var file = "$selectedDirectory/excel.xlsx";
         var bytes = await File(file).readAsBytes();
         Excel excel = Excel.decodeBytes(bytes);
         return excel;
       }
-    }else{
+    } else {
       await Permission.storage.request();
     }
     return null;
