@@ -43,10 +43,12 @@ dependencies:
   file_picker: ^5.2.0+1
   get: ^4.6.5
   intl: ^0.17.0
+  hive_generator: any
 
 dev_dependencies:
   integration_test:
     sdk: flutter
+  build_runner: any
   flutter_test:
     sdk: flutter
 

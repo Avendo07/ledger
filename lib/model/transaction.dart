@@ -1,13 +1,26 @@
+import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:ledger/constants/enum.dart';
+part 'transaction.g.dart';
 
-class Transaction {
+@HiveType(typeId: 0)
+class Transaction extends HiveObject {
+  @HiveField(0)
   final String transactionId;
+
+  @HiveField(1)
   final TransactionType transactionType;
 
+  // @HiveField(2)
   // final String sender;
+  //
+  // @HiveField(3)
   // final String receiver;
+
+  @HiveField(4)
   final int amount;
+
+  @HiveField(5)
   final DateTime timeStamp;
 
   Transaction(
@@ -36,23 +49,27 @@ class Transaction {
   }*/
 
   List<dynamic> toList() {
-    return [transactionId, transactionType.name, amount, _formatTimeStampString(timeStamp)];
+    return [
+      transactionId,
+      transactionType.name,
+      amount,
+      _formatTimeStampString(timeStamp)
+    ];
   }
 
   String toString() {
     return ("ID: $transactionId, type: $transactionType, amount: $amount, time: $timeStamp");
   }
 
-  static String _formatTimeStampString(DateTime dateTime){
+  static String _formatTimeStampString(DateTime dateTime) {
     DateFormat dateFormat = DateFormat("yyyy-MM-dd kk:mm:ss");
     String timeStampString = dateFormat.format(dateTime);
     return timeStampString;
   }
 
-  static DateTime _timeStampFromString(String timeStampString){
+  static DateTime _timeStampFromString(String timeStampString) {
     DateFormat dateFormat = DateFormat("yyyy-MM-dd kk:mm:ss");
     DateTime formattedTimeStamp = dateFormat.parse(timeStampString);
     return formattedTimeStamp;
   }
-
 }

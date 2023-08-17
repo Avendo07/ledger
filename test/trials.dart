@@ -202,7 +202,7 @@ void main() {
     });
 
     test("Transaction Type", () {
-      print(parseTransactionTypeFromString("credi")?.name);
+      print(parseTransactionTypeFromString("credit")?.name);
     });
 
     test("Date Time month format", (){
