@@ -14,11 +14,11 @@ class TransactionPage extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () => repo.insert(
-                Transaction("5", TransactionType.credit, 500, DateTime.now())),
+                Transaction(TransactionType.debit, 500, DateTime.now(), "Helo",)),
             child: const Text("Add Transaction"),
           ),
           ElevatedButton(
-            onPressed: () => print(repo.getOne(0).toString()),
+            onPressed: () => print(repo.getTransaction("0").toString()),
             child: const Text("Print Transaction"),
           ),
         ],

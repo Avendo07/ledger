@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:ledger/constants/enum.dart';
-import 'package:ledger/model/transaction.dart';
 
 void main() {
   group("matcher", () {
@@ -205,17 +204,17 @@ void main() {
       print(parseTransactionTypeFromString("credit")?.name);
     });
 
-    test("Date Time month format", (){
+    test("Date Time month format", () {
       String formattedDate = DateFormat('MMMM yyyy').format(DateTime.now());
       print(formattedDate);
     });
 
-    test("New date time stamp", (){
-      Transaction transaction = Transaction("2", TransactionType.credit, 54, DateTime.now());
-      print(transaction.toList());
-      List list = transaction.toList();
-      Transaction transactionNew = Transaction.fromList(list);
-      print(transactionNew);
-    });
+    // test("New date time stamp", (){
+    //   Transaction transaction = Transaction("2", TransactionType.credit, 54, DateTime.now());
+    //   print(transaction.toList());
+    //   List list = transaction.toList();
+    //   Transaction transactionNew = Transaction.fromList(list);
+    //   print(transactionNew);
+    // });
   });
 }

@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ledger/constants/enum.dart';
 import 'package:ledger/constants/hive_box.dart' as constants;
 import 'package:ledger/model/transaction.dart';
 import 'package:ledger/repositories/interface/transaction_repository_interface.dart';
@@ -7,7 +8,7 @@ class TransactionRepository extends ITransactionRepository {
   late Box<Transaction> transactions;
 
   @override
-  void delete(int id) {
+  void delete(String transactionId) {
     // TODO: implement delete
   }
 
@@ -24,10 +25,11 @@ class TransactionRepository extends ITransactionRepository {
   }
 
   @override
-  Transaction? getOne(int id) {
+  Transaction? getTransaction(String transactionId) {
     try {
       initialiseBox();
-      return transactions.getAt(id);
+      return transactions.values.firstWhere((transaction) =>
+          transaction.transactionType == TransactionType.debit);
     } catch (e) {
       rethrow;
     }

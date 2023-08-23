@@ -17,10 +17,10 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Transaction(
-      fields[0] as String,
       fields[1] as TransactionType,
       fields[4] as int,
       fields[5] as DateTime,
+      fields[2] as String,
     );
   }
 
@@ -28,10 +28,10 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
   void write(BinaryWriter writer, Transaction obj) {
     writer
       ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.transactionId)
       ..writeByte(1)
       ..write(obj.transactionType)
+      ..writeByte(2)
+      ..write(obj.counterParty)
       ..writeByte(4)
       ..write(obj.amount)
       ..writeByte(5)

@@ -1,21 +1,19 @@
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:ledger/constants/enum.dart';
+
 part 'transaction.g.dart';
 
 @HiveType(typeId: 0)
 class Transaction extends HiveObject {
-  @HiveField(0)
-  final String transactionId;
+  // @HiveField(0)
+  // final String transactionId;
 
   @HiveField(1)
   final TransactionType transactionType;
 
-  // @HiveField(2)
-  // final String sender;
-  //
-  // @HiveField(3)
-  // final String receiver;
+  @HiveField(2, defaultValue: "")
+  final String counterParty;
 
   @HiveField(4)
   final int amount;
@@ -23,42 +21,48 @@ class Transaction extends HiveObject {
   @HiveField(5)
   final DateTime timeStamp;
 
+  // @HiveField(6)
+  // final String sender;
+  //
+  // @HiveField(7)
+  // final String receiver;
+
   Transaction(
-      this.transactionId, this.transactionType, this.amount, this.timeStamp);
+      this.transactionType, this.amount, this.timeStamp, this.counterParty);
 
-/*  Transaction.fromMap(Map<String, dynamic> data)
-      : transactionId = data['transactionId'],
-        transactionType = data['transactionType'],
+  Map<String, dynamic> toMap() {
+    return {
+      'transactionType': transactionType.name,
+      'counterParty': counterParty,
+      'amount': amount,
+      'timeStamp': _formatTimeStampString(timeStamp)
+    };
+  }
+
+  Transaction.fromMap(Map<String, dynamic> data)
+      : transactionType = data['transactionType'],
+        counterParty = data['counterParty'],
         amount = data['amount'],
-        timeStamp = data['timeStamp'];*/
+        timeStamp = _timeStampFromString(data['timeStamp']);
 
-  Transaction.fromList(List<dynamic> data)
-      : transactionId = data[0],
+  /*Transaction.fromList(List<dynamic> data)                                    //TODO: These methods are for Excel extension
+      :
         transactionType =
             parseTransactionTypeFromString(data[1]) ?? TransactionType.debit,
         amount = data[2],
-        timeStamp = _timeStampFromString(data[3]);
+        timeStamp = _timeStampFromString(data[3]);*/
 
-/*  Map<String, dynamic> toMap() {
-    return {
-      'transactionId': transactionId,
-      'transactionType': transactionType.name,
-      'amount': amount,
-      'timeStamp': timeStamp
-    };
-  }*/
-
-  List<dynamic> toList() {
+  /*List<dynamic> toList() {
     return [
-      transactionId,
       transactionType.name,
       amount,
       _formatTimeStampString(timeStamp)
     ];
-  }
+  }*/
 
+  @override
   String toString() {
-    return ("ID: $transactionId, type: $transactionType, amount: $amount, time: $timeStamp");
+    return ("type: $transactionType, amount: $amount, time: $timeStamp, counterParty: $counterParty");
   }
 
   static String _formatTimeStampString(DateTime dateTime) {
