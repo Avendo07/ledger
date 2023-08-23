@@ -50,7 +50,7 @@ class TransactionRepository extends ITransactionRepository {
 
   void initialiseBox() {
     if (Hive.isBoxOpen(constants.transactionBox)) {
-      transactions = Hive.box(constants.transactionBox);
+      transactions = Hive.box<Transaction>(constants.transactionBox);
     } else {
       Hive.openBox<Transaction>(constants.transactionBox);
       throw Exception("DB is not ready, try again in some time");

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ledger/constants/enum.dart';
 import 'package:ledger/constants/hive_box.dart' as constants;
 import 'package:ledger/ui/homepage.dart';
 import 'package:ledger/ui/settings.dart';
 import 'package:ledger/view_model/home_controller.dart';
+
 import 'model/transaction.dart';
 
 void main() {
   Hive.initFlutter().then((value) {
     Hive.registerAdapter(TransactionAdapter());
-    Hive.openBox(constants.transactionBox);
+    Hive.registerAdapter(TransactionTypeAdapter());
+    Hive.openBox<Transaction>(constants.transactionBox);
   });
   Get.put(HomeController());
   runApp(const MyApp());
