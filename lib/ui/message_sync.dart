@@ -47,6 +47,7 @@ class _MessageListState extends State<MessageList> {
 
   void syncMessages() async {
     PermissionStatus smsPermission = await Permission.sms.status;
+    print("Syncing Messages");
     if (smsPermission.isGranted) {
       setState(() {
         buttonPressed = true;
@@ -59,11 +60,15 @@ class _MessageListState extends State<MessageList> {
         synced = true;
       });
       print(messages);
+      print("Req granted");
     } else {
-      await Permission.sms.request();
-      setState(() {
-        buttonPressed = false;
-        synced = false;
+      await Permission.sms.request().then((value) {
+        setState(() {
+          buttonPressed = false;
+          synced = false;
+        });
+        print("Request value $value");
+        print("Requesting request");
       });
     }
   }
