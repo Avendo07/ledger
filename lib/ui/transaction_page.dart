@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ledger/constants/enum.dart';
+import 'package:ledger/routing/named_routes.dart';
 import 'package:ledger/model/transaction.dart';
 import 'package:ledger/repositories/transaction_repository.dart';
 
@@ -13,8 +14,8 @@ class TransactionPage extends StatelessWidget {
       child: Column(
         children: [
           ElevatedButton(
-            onPressed: () => repo.insert(
-                Transaction(TransactionType.debit, 500, DateTime.now(), "Helo",)),
+            onPressed: () => Navigator.of(context).pushNamed(addTransactionPage),/*repo.insert(
+                Transaction(TransactionType.debit, 500, DateTime.now(), "Helo",)),*/
             child: const Text("Add Transaction"),
           ),
           ElevatedButton(

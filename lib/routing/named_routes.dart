@@ -1,0 +1,1 @@
+const addTransactionPage = "/addTransaction";

@@ -4,10 +4,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ledger/constants/enum.dart';
 import 'package:ledger/constants/hive_box.dart' as constants;
 import 'package:ledger/ui/homepage.dart';
-import 'package:ledger/ui/settings.dart';
 import 'package:ledger/view_model/home_controller.dart';
 
 import 'model/transaction.dart';
+import 'routing/routes.dart';
 
 void main() {
   Hive.initFlutter().then((value) {
@@ -26,10 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      routes: {
-        "/home": (buildContext) => const HomePage(),
-        "/settings": (buildContext) => Settings(),
-      },
+      routes: routes,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
