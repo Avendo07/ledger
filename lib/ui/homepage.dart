@@ -18,43 +18,41 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          title: const Text('Ledger'),
-          actions: [
-            IconButton(
-              onPressed: () => Navigator.of(context).pushNamed("/settings"),
-              icon: const Icon(Icons.settings),
-            ),
-          ],
-        ),
-        body: _children[_bottomBarIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _bottomBarIndex,
-          onTap: (int index) => setState(() {
-            _bottomBarIndex = index;
-          }),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.sync_outlined),
-              activeIcon: Icon(Icons.sync),
-              label: "Message",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.ios_share_outlined),
-              activeIcon: Icon(Icons.ios_share),
-              label: "Export",
-            ),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        title: const Text('Ledger'),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).pushNamed("/settings"),
+            icon: const Icon(Icons.settings),
+          ),
+        ],
+      ),
+      body: _children[_bottomBarIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _bottomBarIndex,
+        onTap: (int index) => setState(() {
+          _bottomBarIndex = index;
+        }),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.sync_outlined),
+            activeIcon: Icon(Icons.sync),
+            label: "Message",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.ios_share_outlined),
+            activeIcon: Icon(Icons.ios_share),
+            label: "Export",
+          ),
+        ],
       ),
     );
   }
