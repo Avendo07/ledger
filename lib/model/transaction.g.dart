@@ -18,9 +18,9 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
     };
     return Transaction(
       fields[1] as TransactionType,
-      fields[4] as int,
+      fields[4] as double,
       fields[5] as DateTime,
-      fields[2] as String,
+      fields[2] == null ? '' : fields[2] as String,
     );
   }
 

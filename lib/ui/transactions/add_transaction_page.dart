@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ledger/constants/enum.dart';
+import 'package:ledger/model/transaction.dart';
+import 'package:ledger/repositories/transaction_repository.dart';
 import 'package:ledger/utility/date_picker.dart';
 
 class AddTransactionPage extends StatefulWidget {
@@ -16,6 +19,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   late DateTime timeStamp;
   static final GlobalKey _formKey = GlobalKey<FormState>();
   final TextEditingController _dateTimeTextController = TextEditingController();
+  TransactionRepository transactionRepository = TransactionRepository();
 
   @override
   void initState() {
@@ -100,6 +104,28 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               ),
             ),
           ),
+        ),
+        bottomNavigationBar: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                transactionRepository.insert(
+                Transaction(
+                  isDebit ? TransactionType.debit : TransactionType.credit,
+                  amount,
+                  timeStamp,
+                  counterParty,
+                ),
+              );
+              },
+              child: const Text("Add"),
+            ),
+            ElevatedButton(
+              child: const Text("Cancel"),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
         ),
       ),
     );

@@ -16,7 +16,7 @@ class Transaction extends HiveObject {
   final String counterParty;
 
   @HiveField(4)
-  final int amount;
+  final double amount;
 
   @HiveField(5)
   final DateTime timeStamp;

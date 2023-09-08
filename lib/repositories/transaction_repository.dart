@@ -39,7 +39,7 @@ class TransactionRepository extends ITransactionRepository {
   void insert(Transaction transaction) {
     try {
       initialiseBox();
-      transactions.add(transaction);
+      transactions.add(transaction).then((value) => print("Inserted"));         //TODO: Remove this and add some other debug log
     } catch (e) {
       rethrow;
     }
