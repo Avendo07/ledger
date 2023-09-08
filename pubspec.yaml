@@ -44,6 +44,7 @@ dependencies:
   get: any
   intl: any
   hive_generator: any
+  omni_datetime_picker: any   #TODO: Could use easy_date_timeline: for better ui
 
 dev_dependencies:
   integration_test:

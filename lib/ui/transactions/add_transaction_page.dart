@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ledger/utility/date_picker.dart';
 
 class AddTransactionPage extends StatefulWidget {
   const AddTransactionPage({super.key});
@@ -14,6 +15,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   late double amount;
   late DateTime timeStamp;
   static final GlobalKey _formKey = GlobalKey<FormState>();
+  final TextEditingController _dateTimeTextController = TextEditingController();
 
   @override
   void initState() {
@@ -79,10 +81,19 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     onChanged: (value) => amount = double.parse(value),
                   ),
                   TextFormField(
+                    controller: _dateTimeTextController,
                     decoration: const InputDecoration(
                       label: Text("Date n Time"),
                     ),
-                    onChanged: (value) => timeStamp = DateTime.parse(value),
+                    onTap: () async {
+                      DateTime? pickedTimeStamp =
+                          await showDateTimePickerWidget(context);
+                      pickedTimeStamp = pickedTimeStamp ?? timeStamp;
+                      setState(() {
+                        _dateTimeTextController.text = timeStamp.toString();
+                        //TODO: Add(Move out from the model class) common conversion functions which can help this
+                      });
+                    },
                   ),
                   // const TextField()
                 ],
