@@ -96,7 +96,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                           await showDateTimePickerWidget(context);
                       timeStamp = pickedTimeStamp ?? timeStamp;
                       setState(() {
-                        _dateTimeTextController.text = formatTimeStampString(timeStamp);
+                        _dateTimeTextController.text =
+                            formatTimeStampString(timeStamp);
                       });
                     },
                   ),
@@ -112,13 +113,15 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             ElevatedButton(
               onPressed: () {
                 transactionRepository.insert(
-                Transaction(
-                  isDebit ? TransactionType.debit : TransactionType.credit,
-                  amount,
-                  timeStamp,
-                  counterParty,
-                ),
-              );
+                  Transaction(
+                    transactionType: isDebit
+                        ? TransactionType.debit
+                        : TransactionType.credit,
+                    amount: amount,
+                    timeStamp: timeStamp,
+                    counterParty: counterParty,
+                  ),
+                );
               },
               child: const Text("Add"),
             ),

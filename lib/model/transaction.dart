@@ -28,7 +28,10 @@ class Transaction extends HiveObject {
   // final String receiver;
 
   Transaction(
-      this.transactionType, this.amount, this.timeStamp, this.counterParty);
+      {required this.transactionType,
+      required this.amount,
+      required this.timeStamp,
+      required this.counterParty});
 
   Map<String, dynamic> toMap() {
     return {
