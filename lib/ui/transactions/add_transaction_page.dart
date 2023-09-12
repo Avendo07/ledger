@@ -4,6 +4,7 @@ import 'package:ledger/constants/enum.dart';
 import 'package:ledger/model/transaction.dart';
 import 'package:ledger/repositories/transaction_repository.dart';
 import 'package:ledger/utility/date_picker.dart';
+import 'package:ledger/utility/date_time_utility.dart';
 
 class AddTransactionPage extends StatefulWidget {
   const AddTransactionPage({super.key});
@@ -86,16 +87,16 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   ),
                   TextFormField(
                     controller: _dateTimeTextController,
+                    readOnly: true,
                     decoration: const InputDecoration(
                       label: Text("Date n Time"),
                     ),
                     onTap: () async {
                       DateTime? pickedTimeStamp =
                           await showDateTimePickerWidget(context);
-                      pickedTimeStamp = pickedTimeStamp ?? timeStamp;
+                      timeStamp = pickedTimeStamp ?? timeStamp;
                       setState(() {
-                        _dateTimeTextController.text = timeStamp.toString();
-                        //TODO: Add(Move out from the model class) common conversion functions which can help this
+                        _dateTimeTextController.text = formatTimeStampString(timeStamp);
                       });
                     },
                   ),

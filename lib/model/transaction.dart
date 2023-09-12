@@ -1,6 +1,6 @@
 import 'package:hive_flutter/adapters.dart';
-import 'package:intl/intl.dart';
 import 'package:ledger/constants/enum.dart';
+import 'package:ledger/utility/date_time_utility.dart';
 
 part 'transaction.g.dart';
 
@@ -35,7 +35,7 @@ class Transaction extends HiveObject {
       'transactionType': transactionType.name,
       'counterParty': counterParty,
       'amount': amount,
-      'timeStamp': _formatTimeStampString(timeStamp)
+      'timeStamp': formatTimeStampString(timeStamp)
     };
   }
 
@@ -43,7 +43,7 @@ class Transaction extends HiveObject {
       : transactionType = data['transactionType'],
         counterParty = data['counterParty'],
         amount = data['amount'],
-        timeStamp = _timeStampFromString(data['timeStamp']);
+        timeStamp = timeStampFromString(data['timeStamp']);
 
   /*Transaction.fromList(List<dynamic> data)                                    //TODO: These methods are for Excel extension
       :
@@ -63,17 +63,5 @@ class Transaction extends HiveObject {
   @override
   String toString() {
     return ("type: $transactionType, amount: $amount, time: $timeStamp, counterParty: $counterParty");
-  }
-
-  static String _formatTimeStampString(DateTime dateTime) {
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd kk:mm:ss");
-    String timeStampString = dateFormat.format(dateTime);
-    return timeStampString;
-  }
-
-  static DateTime _timeStampFromString(String timeStampString) {
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd kk:mm:ss");
-    DateTime formattedTimeStamp = dateFormat.parse(timeStampString);
-    return formattedTimeStamp;
   }
 }
